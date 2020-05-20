@@ -1,11 +1,12 @@
 package com.example.moviesinnetwork
 
 import android.app.Application
+import com.example.moviesinnetwork.Api
+import com.example.moviesinnetwork.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-
 
 class App : Application() {
 

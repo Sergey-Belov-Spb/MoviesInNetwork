@@ -7,7 +7,8 @@ import retrofit2.http.Query
 
 interface Api {
 
-    @GET("films")
+    //@GET ("?apikey=7da3fa59&s=xxx&type=movie&y=2002")//@GET("films")
+    @GET ("?i=tt3896198&apikey=7da3fa59")
     fun getFilms(): Call<List<FilmModel>>
 
     @GET("films?id=1&name=blabla")

@@ -1,76 +1,38 @@
 package com.example.moviesinnetwork
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
+import android.widget.LinearLayout
+import android.widget.ProgressBar
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.snackbar.Snackbar
+//import kotlinx.android.synthetic.main.fragment_movies_list.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+
 class MainActivity : AppCompatActivity() {
+
+    companion object{
+        const val TAG = "MainActivity"
+
+        var AllMovies: MutableList<MoviesItem> = ArrayList()
+        var FavoriteMovies: MutableList<MoviesItem> = ArrayList()
+        var LastFragmentAttached: Fragment = Fragment()
+        var allFilmsFragmentAttached: Fragment = Fragment()
+        var numLastAddIndex:Int =0
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        App.instance.api.getFilms()
-            .enqueue(object : Callback <List<FilmModel>?> {
-                override fun onFailure(call: Call<List<FilmModel>?>, t: Throwable) {
-
-                }
-
-                override fun onResponse(
-                    call: Call<List<FilmModel>?>,
-                    response: Response<List<FilmModel>?>
-                ) {
-                    //items.clear()
-                    if (response.isSuccessful) {
-                        response.body()
-                            ?.forEach {
-                                /*items.add(
-                                    MainItem(
-                                        it.id,
-                                        it.title,
-                                        it.image
-                                    )
-                                )*/
-                            }
-                    }
-                   // adapter.notifyDataSetChanged()
-                }
-            })
 
 
-        findViewById<Button>(R.id.buttonGoConnect).setOnClickListener(){
-            Log.d("TEST","buttonGoConnect")
-            App.instance.api.getFilms()
-                .enqueue(object : Callback<List<FilmModel>?> {
-                    override fun onFailure(call: Call<List<FilmModel>?>, t: Throwable) {
-
-                    }
-
-                    override fun onResponse(
-                        call: Call<List<FilmModel>?>,
-                        response: Response<List<FilmModel>?>
-                    ) {
-
-                        if (response.isSuccessful) {
-                            response.body()
-                                ?.forEach {
-                                    /*items.add(
-                                        MainItem(
-                                            it.id,
-                                            it.title,
-                                            it.image
-                                        )
-                                    )*/
-                                }
-                        }
-                        //adapter.notifyDataSetChanged()
-                    }
-                })
-
-        }
     }
 }

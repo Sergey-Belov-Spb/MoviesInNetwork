@@ -94,10 +94,6 @@ class MainActivity : AppCompatActivity(), MoviesListFragments.MoviesListListener
             }
             false
         }
-        findViewById<Button>(R.id.buttonGetData).setOnClickListener(){
-            Log.d(TAG,"buttonGetData")
-            GetDataFromInet()
-        }
     }
 
     override fun onBackPressed() {
@@ -128,6 +124,7 @@ class MainActivity : AppCompatActivity(), MoviesListFragments.MoviesListListener
         App.instance.api.getFilms()
             .enqueue(object : Callback <List<FilmModel>?> {
                 override fun onFailure(call: Call<List<FilmModel>?>, t: Throwable) {
+                    Log.d(TAG, "Error internet")
                 }
                 override fun onResponse(
                     call: Call<List<FilmModel>?>,

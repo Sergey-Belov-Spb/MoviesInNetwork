@@ -15,25 +15,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/navigationBottom"
-        android:fitsSystemWindows="true"
-        >
-
-        <Button
-            android:id="@+id/buttonGetData"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="dbg" />
+        android:fitsSystemWindows="true">
 
         <ProgressBar
             android:id="@+id/progressBar"
-            android:layout_width="wrap_content"
+            android:layout_width="82dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="220dip"
             android:layout_marginTop="20dip"
             android:indeterminateDrawable="@drawable/spinner_ring"
             android:indeterminateOnly="true"
-            android:visibility="invisible"
-            />
+            android:visibility="invisible" />
     </FrameLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

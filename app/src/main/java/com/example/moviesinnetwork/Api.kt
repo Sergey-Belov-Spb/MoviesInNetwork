@@ -10,6 +10,6 @@ interface Api {
     @GET("films")
     fun getFilms(): Call<List<FilmModel>>
 
-    @GET("films?id=1&name=blabla")
-    fun getFilmById(@Query("image") id: String, @Query("name") name:String): Call<FilmModel>
+    //@GET("films?id=1&name=blabla")
+    //fun getFilmById(@Query("image") id: String, @Query("name") name:String): Call<FilmModel>
 }

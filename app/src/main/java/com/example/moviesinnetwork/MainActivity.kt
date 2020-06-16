@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_movies_list.*
+import org.jetbrains.annotations.NotNull
 //import kotlinx.android.synthetic.main.fragment_movies_list.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -33,27 +34,26 @@ class MainActivity : AppCompatActivity(), MoviesListFragments.MoviesListListener
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         //val toolbar  =  findViewById<Toolbar>(R.id.toolbar)//findViewById(R.id.toolbar);
-        openAllMoviesList()
+        //openAllMoviesList()
+        replaceFragment(MoviesListFragments(),MoviesListFragments.TAG)
         initButtonListener()
         GetDataFromInet()
     }
 
-    private fun openAllMoviesList(){
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.fragmentContainer,MoviesListFragments(), MoviesListFragments.TAG  )
-            //.addToBackStack("Main")
-            .commit()
+    public fun replaceFragment(newFragment: Fragment,nameTag :String){
+        val transaction = supportFragmentManager.beginTransaction()
+        val fManager = supportFragmentManager
+        val fragm = fManager.findFragmentByTag(nameTag)
+        val tagFragment = fragm?.tag
+        Log.d(TAG,"fragm.tag-> $tagFragment")
+        if (fragm == null){
+            transaction.replace(R.id.fragmentContainer,newFragment,nameTag)
+            transaction.addToBackStack(nameTag)
+        }else{
+            transaction.replace(R.id.fragmentContainer,fragm,fragm.tag)
+        }
+        transaction.commit()
     }
-
-    private fun openFavoriteMoviesList(){
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.fragmentContainer,MoviesListFavoriteFragments(), MoviesListFavoriteFragments.TAG  )
-            //.addToBackStack("Favorite")
-            .commit()
-    }
-
     private fun openDetailedFragment(moviesItem: MoviesItem) {
         supportFragmentManager
             .beginTransaction()
@@ -85,11 +85,13 @@ class MainActivity : AppCompatActivity(), MoviesListFragments.MoviesListListener
             when (menuItem.itemId) {
                 R.id.action_allMovies -> {
                     Log.d(TAG,"action_allMovies")
-                    openAllMoviesList()
+                    //openAllMoviesList()
+                    replaceFragment(MoviesListFragments(),MoviesListFragments.TAG)
                 }
                 R.id.action_favoriteMovies -> {
-                    Log.d(TAG,"action_allMovies")
-                    openFavoriteMoviesList()
+                    Log.d(TAG,"action_FavoriteMovies")
+                    //openFavoriteMoviesList()
+                    replaceFragment(MoviesListFavoriteFragments(),MoviesListFavoriteFragments.TAG)
                 }
             }
             false
@@ -97,25 +99,13 @@ class MainActivity : AppCompatActivity(), MoviesListFragments.MoviesListListener
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
-        /*val fragmentsInStack= supportFragmentManager.backStackEntryCount
-        Log.d(TAG,"fragmentsInStack =$fragmentsInStack")
-        val CurFragment = supportFragmentManager.findFragmentByTag(MoviesListFragments.TAG)
 
-        if (CurFragment is MoviesListFragments) {
-            Log.d(TAG,"is MoviesListFragments")
-        }
-
-        if (fragmentsInStack>1){
-            if (LastFragmentAttached is MoviesListFragments){
-                finish()
-             }
-            else supportFragmentManager.popBackStack()
-        } else if (fragmentsInStack==1){
-            finish()
-        } else {
+        val fragmentsInStack= supportFragmentManager.backStackEntryCount
+        if (fragmentsInStack>1) {
             super.onBackPressed()
-        }*/
+        }else{
+            finish()
+        }
     }
 
     private fun GetDataFromInet() {
@@ -162,11 +152,8 @@ class MainActivity : AppCompatActivity(), MoviesListFragments.MoviesListListener
                     val AddedMovieItem = moviesItem
                     val AddedPosition = position
                     FavoriteMovies.add(moviesItem)
-
-                    val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-                    lp.setMargins(0, 0, 0, 10)
-                    val mySnackbar =Snackbar.make(this.findViewById(R.id.fragmentContainer), "Отменить последнюю операцию?", Snackbar.LENGTH_SHORT)
-                    mySnackbar.view.layoutParams=lp
+                    val mySnackbar =Snackbar.make(this.findViewById(R.id.navigationBottom), "Отменить последнюю операцию?", Snackbar.LENGTH_SHORT)
+                    mySnackbar.setAnchorView(findViewById<BottomNavigationView>(R.id.navigationBottom))
                     mySnackbar.setAction(
                         "Отмена",
                         {
@@ -184,10 +171,8 @@ class MainActivity : AppCompatActivity(), MoviesListFragments.MoviesListListener
                     FavoriteMovies.remove(moviesItem)
                     val DeletedMovieItem = moviesItem
                     val DeletedPosition = position
-                    val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-                    lp.setMargins(0, 0, 0, 10)
                     val mySnackbar =Snackbar.make(this.findViewById(R.id.fragmentContainer), "Отменить последнюю операцию?", Snackbar.LENGTH_SHORT)
-                    mySnackbar.view.layoutParams=lp
+                    mySnackbar.setAnchorView(findViewById<BottomNavigationView>(R.id.navigationBottom))
                     mySnackbar.setAction(
                         "Отмена",
                         {

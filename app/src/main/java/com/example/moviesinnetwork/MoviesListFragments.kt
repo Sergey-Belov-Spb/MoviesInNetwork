@@ -16,8 +16,12 @@ import kotlinx.android.synthetic.main.fragment_movies_list.*
 
 class MoviesListFragments : Fragment (){
     companion object{
-        const val TAG = "MoviesListFragments"
+         const val TAG = "MoviesListFragments"
     }
+    /*object statics {
+        @JvmField val TAG = "MoviesListFragments"
+    }*/
+
     var listener : MoviesListListener? = null
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

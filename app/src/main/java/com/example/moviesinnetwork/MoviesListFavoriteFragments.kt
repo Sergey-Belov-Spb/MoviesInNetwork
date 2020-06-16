@@ -14,6 +14,10 @@ class MoviesListFavoriteFragments : Fragment () {
     companion object{
         const val TAG = "MoviesListFavoriteFragments"
     }
+    /*object statics {
+        @JvmField val TAG = "MoviesListFavoriteFragments"
+    }*/
+
     var listener : MoviesListFragments.MoviesListListener? = null
 
     override fun onCreateView(

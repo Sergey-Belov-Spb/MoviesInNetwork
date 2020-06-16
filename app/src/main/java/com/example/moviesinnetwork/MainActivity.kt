@@ -33,8 +33,6 @@ class MainActivity : AppCompatActivity(), MoviesListFragments.MoviesListListener
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        //val toolbar  =  findViewById<Toolbar>(R.id.toolbar)//findViewById(R.id.toolbar);
-        //openAllMoviesList()
         replaceFragment(MoviesListFragments(),MoviesListFragments.TAG)
         initButtonListener()
         GetDataFromInet()
@@ -85,12 +83,10 @@ class MainActivity : AppCompatActivity(), MoviesListFragments.MoviesListListener
             when (menuItem.itemId) {
                 R.id.action_allMovies -> {
                     Log.d(TAG,"action_allMovies")
-                    //openAllMoviesList()
                     replaceFragment(MoviesListFragments(),MoviesListFragments.TAG)
                 }
                 R.id.action_favoriteMovies -> {
                     Log.d(TAG,"action_FavoriteMovies")
-                    //openFavoriteMoviesList()
                     replaceFragment(MoviesListFavoriteFragments(),MoviesListFavoriteFragments.TAG)
                 }
             }

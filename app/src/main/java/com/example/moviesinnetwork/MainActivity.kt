@@ -43,22 +43,40 @@ class MainActivity : AppCompatActivity(), MoviesListFragments.MoviesListListener
         val fManager = supportFragmentManager
         val fragm = fManager.findFragmentByTag(nameTag)
         val tagFragment = fragm?.tag
-        Log.d(TAG,"fragm.tag-> $tagFragment")
+        val sizeStack = supportFragmentManager.backStackEntryCount
+        Log.d(TAG,"fragm.tag-> $tagFragment  size -> $sizeStack ")
         if (fragm == null){
             transaction.replace(R.id.fragmentContainer,newFragment,nameTag)
             transaction.addToBackStack(nameTag)
+            Log.d(TAG,"Add Fragment ")
         }else{
             transaction.replace(R.id.fragmentContainer,fragm,fragm.tag)
+            Log.d(TAG,"Replase Fragmrnt ")
         }
         transaction.commit()
+        Log.d(TAG,"fragm.tag-> 2 $tagFragment  size -> $sizeStack ")
     }
-    private fun openDetailedFragment(moviesItem: MoviesItem) {
+
+    override fun onBackPressed() {
+        val fragmentsInStack= supportFragmentManager.fragments.size
+        val d = Log.d(TAG, "onBackPressed fragmentsInStack=$fragmentsInStack ")
+
+        val frag= supportFragmentManager.fragments.get(fragmentsInStack-1)
+        if ((frag is MoviesListFragments)||(fragmentsInStack == 1)) {
+            finish()
+        }else{
+            super.onBackPressed()
+        }
+    }
+
+
+    /*private fun openDetailedFragment(moviesItem: MoviesItem) {
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.fragmentContainer,MovieDetailedFragment.newInstance(moviesItem.name,moviesItem.image),MovieDetailedFragment.TAG)
             .addToBackStack("Detaled")
             .commit()
-    }
+    }*/
 
     override fun onAttachFragment(fragment: Fragment) {
         super.onAttachFragment(fragment)
@@ -94,15 +112,6 @@ class MainActivity : AppCompatActivity(), MoviesListFragments.MoviesListListener
         }
     }
 
-    override fun onBackPressed() {
-
-        val fragmentsInStack= supportFragmentManager.backStackEntryCount
-        if (fragmentsInStack>1) {
-            super.onBackPressed()
-        }else{
-            finish()
-        }
-    }
 
     private fun GetDataFromInet() {
         findViewById<ProgressBar>(R.id.progressBar).visibility=View.VISIBLE
@@ -140,7 +149,7 @@ class MainActivity : AppCompatActivity(), MoviesListFragments.MoviesListListener
 
         if (add==-1) {GetDataFromInet()}
         else
-            if (add==0) {openDetailedFragment(moviesItem)}
+            if (add==0) {replaceFragment(MovieDetailedFragment.newInstance(moviesItem.name,moviesItem.image),MovieDetailedFragment.TAG)} //{openDetailedFragment(moviesItem)}
             else {
                 moviesItem.inFavorite=!moviesItem.inFavorite
                 if (FavoriteMovies.indexOf(moviesItem) == -1){
